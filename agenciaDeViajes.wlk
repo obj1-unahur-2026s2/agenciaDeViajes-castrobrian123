@@ -32,9 +32,6 @@ class Pack {
             self.aplicarRecargoSiEsInternacional()
     }
 
-
-
-
 }
 
 //recordar los contenidos de los apuntes de wollok del dia 27/7/2026
@@ -102,9 +99,37 @@ class Coordinador {
         }
     }
 
-
+    method esAltamenteCalificado() = self.cantidadDeViajesRealizados() > 20
 
 }
+
+//rol
+
+class Guia {
+
+    var estaMotivado
+
+    method estaMotivado() = estaMotivado
+
+    method cumpleCondicion() = self.estaMotivado()
+
+}
+
+class AsistenteLogistico {
+
+    var añosDeExperiencia
+
+    method añosDeExperiencia() = añosDeExperiencia
+
+    method cumpleCondicion() = self.añosDeExperiencia() >= 3
+
+}
+
+class Acompañante {
+    method cumpleCondicion() = true
+}
+
+//beneficios
 
 object trasladoPrivado {
 
