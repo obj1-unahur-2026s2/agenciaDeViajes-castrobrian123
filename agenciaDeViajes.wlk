@@ -1,57 +1,46 @@
 
 class Pack {
 
-    //var pack
+    var coordinador
 
-    method pack() //= pack
+    method coordinador() = coordinador
 
-    //var precioBase
+    var duracion
 
-    method precioBase() //= precioBase
+    method duracion() = duracion
 
-    var beneficios = []
+    var precio
+
+    method precio() = precio
+
+    const beneficios = []
 
     method beneficios() = beneficios
 
-    method costoTotalBeneficio(){
-        return beneficios.sum({unBeneficio => unBeneficio.costo()})
-    }
-
-    method aplicarRecargoSiEsInternacional(){
-        if(self.pack().esInternacional()){ //no encontre otra forma
-            return 20
-        } else{
-            return 0
-        }
-    }
-
-    method valorFinalDePack(){
+    method valorFinal() {
         return
-            self.precioBase() +
-            self.costoTotalBeneficio() +
-            self.aplicarRecargoSiEsInternacional()
+            precio +
+            beneficios.sum({ beneficio => beneficio.costo()})
     }
 
+    method esPremium()
 }
 
-//recordar los contenidos de los apuntes de wollok del dia 27/7/2026
 class PackNacional inherits Pack {
-
-    method esInternacional() = false
 
     var provincia
 
     method provincia() = provincia
 
-    var actividades = []
+    const actividades = []
 
-    method actividades() = actividades.map({unaActividad => unaActividad})
+    method actividades() = actividades
+
+    override method esPremium() = self.duracion() > 10 and coordinador.esAltamenteCalificado()
 
 }
 
 class PackInternacional inherits Pack {
-
-    method esInternacional() = true
 
     var pais
 
@@ -65,70 +54,55 @@ class PackInternacional inherits Pack {
 
     method esLugarDeInteres() = esLugarDeInteres
 
+    override method valorFinal() = super() * 1.20
+
+    override method esPremium() = self.esLugarDeInteres() and self.duracion() > 20 and self.cantidadDeEscalas() == 0
+
 }
 
 class Coordinador {
 
-    var grupo
-
-    method grupo() = grupo
-
-    var cantidadDeViajesRealizados
-
-    method cantidadDeViajesRealizados() = cantidadDeViajesRealizados
-
-    var estaMotivado
-
-    method estaMotivado() = estaMotivado
-
-    var añosDeExperiencia
-
-    method añosDeExperiencia() = añosDeExperiencia
-
-    var rol = ""
+    var rol
 
     method rol() = rol
 
-    method roles() = ["guia","asistenteLogistico","acompañante"]
-
-    method cambiarRol(nuevoRol){
-        if(self.roles().contains(nuevoRol)){
-            rol = nuevoRol
-        } else{
-            self.error("rol no existente")
-        }
-    }
-
-    method esAltamenteCalificado() = self.cantidadDeViajesRealizados() > 20
-
-
-
-}
-
-//rol
-
-class Guia {
-
     var estaMotivado
 
     method estaMotivado() = estaMotivado
 
-    method cumpleCondicion() = self.estaMotivado()
+    var viajesRealizados = 0
 
-}
+    method viajesRealizados() = viajesRealizados
 
-class AsistenteLogistico {
-
-    var añosDeExperiencia
+    var añosDeExperiencia = 0
 
     method añosDeExperiencia() = añosDeExperiencia
 
-    method cumpleCondicion() = self.añosDeExperiencia() >= 3
+    const rolesPermitidos = [guia, asistenteLogico, acompaniante]
+
+    method rolesPermitidos() = rolesPermitidos
+
+    method esAltamenteCalificado() = self.viajesRealizados() > 20 and self.rol().condicion(self)
+
+    method asignarRol(nuevoRol) {
+        if(not rolesPermitidos.contains(nuevoRol)) {
+            self.error("Ese rol no esta permitido")
+        }
+        rol = nuevoRol
+    }
 
 }
 
-class Acompañante {
-    method cumpleCondicion() = true
+//
+
+object guia {
+    method condicion(coordinador) = coordinador.estaMotivado()
+}
+object asistenteLogico {
+    method condicion(coordinador) = coordinador.añosDeExperiencia() >= 3
+}
+object acompaniante {
+    method condicion(coordinador) = true
 }
 
 //beneficios
