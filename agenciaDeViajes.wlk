@@ -1,13 +1,13 @@
 
 class Pack {
 
-    var pack
+    //var pack
 
-    method pack() = pack
+    method pack() //= pack
 
-    var precioBase
+    //var precioBase
 
-    method precioBase() = precioBase
+    method precioBase() //= precioBase
 
     var beneficios = []
 
@@ -18,7 +18,7 @@ class Pack {
     }
 
     method aplicarRecargoSiEsInternacional(){
-        if(pack.esInternacional() == true){ //no encontre otra forma
+        if(self.pack().esInternacional()){ //no encontre otra forma
             return 20
         } else{
             return 0
@@ -35,7 +35,7 @@ class Pack {
 }
 
 //recordar los contenidos de los apuntes de wollok del dia 27/7/2026
-class PackNacional {
+class PackNacional inherits Pack {
 
     method esInternacional() = false
 
@@ -49,7 +49,7 @@ class PackNacional {
 
 }
 
-class PackInternacional {
+class PackInternacional inherits Pack {
 
     method esInternacional() = true
 
@@ -100,6 +100,8 @@ class Coordinador {
     }
 
     method esAltamenteCalificado() = self.cantidadDeViajesRealizados() > 20
+
+
 
 }
 

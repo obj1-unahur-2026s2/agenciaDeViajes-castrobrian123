@@ -1,0 +1,15 @@
+import agenciaDeViajes.*
+
+describe "algo"{
+
+    test "Un pack nacional sin beneficios vigentes devuelve el mismo precio base."{
+        const packNacional_1 =
+            new PackNacional(
+                provincia = "corrientes",
+                actividades = ["caminar","saltar","frenar"]
+
+            )
+
+            assert.equals(packNacional_1.precioBase(),packNacional_1)
+    }
+}
